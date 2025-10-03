@@ -1,0 +1,349 @@
+/* General page setup */
+body {
+    background-color: #0d0d0d;
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif; /* You may need to import this font */
+    margin: 0;
+    padding: 0;
+}
+
+.contact-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+/* Header Section */
+.contact-header {
+    text-align: left;
+    margin-bottom: 50px;
+}
+
+.contact-header h1 {
+    font-size: 5em;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+    color: #fff;
+    letter-spacing: -2px;
+}
+
+.contact-header p {
+    font-size: 1.1em;
+    max-width: 500px;
+    line-height: 1.6;
+    color: #b0b0b0;
+}
+
+/* Main Content Grid */
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+}
+
+/* Left Column - Contact Info */
+.contact-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.info-box {
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+}
+
+.info-box .info-label {
+    font-size: 0.8em;
+    color: #999;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.email-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.email-link {
+    color: #e0e0e0;
+    font-size: 1.2em;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.email-link:hover {
+    color: #fff;
+}
+
+.copy-button {
+    background: none;
+    border: 1px solid #e0e0e0;
+    color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+    transition: background-color 0.3s;
+}
+
+.copy-button:hover {
+    background-color: #e0e0e0;
+    color: #0d0d0d;
+}
+
+/* Right Column - Form */
+.contact-form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-field label {
+    font-size: 0.9em;
+    color: #999;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: #e0e0e0;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.form-field textarea {
+    resize: vertical;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+    color: #666;
+}
+
+.form-field select {
+    cursor: pointer;
+}
+
+.form-field small {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: #666;
+}
+
+/* How Heard Buttons */
+.how-heard-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.how-heard-options button {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    border: 1px solid #333;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.how-heard-options button:hover {
+    background-color: #333;
+}
+
+.how-heard-options button.selected {
+    background-color: #555;
+    border-color: #e0e0e0;
+}
+
+/* Submit Button */
+.submit-button {
+    background-color: #ffc107;
+    color: #0d0d0d;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    align-self: flex-start;
+}
+
+.submit-button:hover {
+    background-color: #ffca2c;
+    transform: translateY(-2px);
+}
+
+/* Go Home Button Style */
+.go-home-button {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #ffc107;
+  color: #0d0d0d;
+  font-weight: bold;
+  font-size: 1em;
+  text-decoration: none;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.go-home-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: skewX(-20deg);
+}
+
+.go-home-button:hover::before {
+  left: 100%;
+  transition: left 0.5s;
+}
+
+.go-home-button:hover {
+  background-color: #ffca2c;
+  color: #0d0d0d;
+}
+
+/* Status Notifications */
+.status-notification {
+  padding: 16px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.status-notification.success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.status-notification.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.notification-icon {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.notification-content h3 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+}
+
+.notification-content p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.notification-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Loading spinner for button */
+.button-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Disabled state for form elements */
+.form-field input:disabled,
+.form-field textarea:disabled,
+.form-field select:disabled,
+.how-heard-options button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.submit-button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-header h1 {
+        font-size: 3em;
+    }
+
+    .contact-header p {
+        font-size: 1em;
+    }
+}
