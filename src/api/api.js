@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://protfolio-backend-691q.onrender.com/api/v1/contact/createContact";
+const BASE_URL = "https://portfolio-backend-691q.onrender.com/api/v1/contact/createContact";
 
 export const createContact = async (contactData) => {
   try {
