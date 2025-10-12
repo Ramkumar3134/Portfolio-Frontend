@@ -2,7 +2,7 @@
 body {
     background-color: #0d0d0d;
     color: #e0e0e0;
-    font-family: 'Inter', sans-serif; /* You may need to import this font */
+    font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -134,10 +134,19 @@ body {
     font-size: 1em;
     box-sizing: border-box;
     width: 100%;
+    transition: border-color 0.3s;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    outline: none;
+    border-color: #ffc107;
 }
 
 .form-field textarea {
     resize: vertical;
+    min-height: 120px;
 }
 
 .form-field input::placeholder,
@@ -170,16 +179,19 @@ body {
     padding: 8px 15px;
     border-radius: 20px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    transition: all 0.3s;
+    font-size: 0.9em;
 }
 
 .how-heard-options button:hover {
     background-color: #333;
+    border-color: #555;
 }
 
 .how-heard-options button.selected {
     background-color: #555;
-    border-color: #e0e0e0;
+    border-color: #ffc107;
+    color: #fff;
 }
 
 /* Submit Button */
@@ -192,13 +204,19 @@ body {
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: all 0.3s;
     align-self: flex-start;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.submit-button:hover {
+.submit-button:hover:not(:disabled) {
     background-color: #ffca2c;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
 }
 
 /* Go Home Button Style */
@@ -213,7 +231,8 @@ body {
   border-radius: 8px;
   position: relative;
   overflow: hidden;
-  transition: background-color 0.3s, color 0.3s;
+  transition: all 0.3s;
+  text-align: center;
 }
 
 .go-home-button::before {
@@ -235,14 +254,20 @@ body {
 .go-home-button:hover {
   background-color: #ffca2c;
   color: #0d0d0d;
+  transform: translateY(-2px);
 }
 
 /* Status Notifications */
 .status-notification {
-  padding: 16px;
-  margin-bottom: 30px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 20px;
   border-radius: 8px;
+  max-width: 400px;
   animation: slideIn 0.3s ease-out;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .status-notification.success {
@@ -266,16 +291,19 @@ body {
 .notification-icon {
   font-size: 24px;
   font-weight: bold;
+  flex-shrink: 0;
 }
 
 .notification-content h3 {
   margin: 0 0 5px 0;
   font-size: 18px;
+  font-weight: 600;
 }
 
 .notification-content p {
   margin: 0;
   font-size: 14px;
+  line-height: 1.4;
 }
 
 .notification-close {
@@ -285,6 +313,12 @@ body {
   font-size: 20px;
   cursor: pointer;
   color: inherit;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Loading spinner for button */
@@ -292,11 +326,10 @@ body {
   display: inline-block;
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(13, 13, 13, 0.3);
   border-radius: 50%;
-  border-top-color: #fff;
+  border-top-color: #0d0d0d;
   animation: spin 1s ease-in-out infinite;
-  margin-right: 8px;
 }
 
 @keyframes spin {
@@ -306,11 +339,11 @@ body {
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateX(100%);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
@@ -319,20 +352,32 @@ body {
 .form-field textarea:disabled,
 .form-field select:disabled,
 .how-heard-options button:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
 .submit-button:disabled {
-  opacity: 0.8;
+  opacity: 0.7;
   cursor: not-allowed;
-  transform: none;
+  transform: none !important;
+}
+
+/* Form validation styles */
+.form-field input:invalid:not(:focus):not(:placeholder-shown),
+.form-field textarea:invalid:not(:focus):not(:placeholder-shown) {
+  border-color: #dc3545;
+}
+
+.form-field input:valid:not(:focus):not(:placeholder-shown),
+.form-field textarea:valid:not(:focus):not(:placeholder-shown) {
+  border-color: #28a745;
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
     .contact-content {
         grid-template-columns: 1fr;
+        gap: 40px;
     }
 
     .form-row {
@@ -345,5 +390,32 @@ body {
 
     .contact-header p {
         font-size: 1em;
+    }
+    
+    .status-notification {
+        position: relative;
+        top: auto;
+        right: auto;
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-page-container {
+        padding: 40px 15px;
+    }
+    
+    .contact-header h1 {
+        font-size: 2.5em;
+    }
+    
+    .how-heard-options {
+        gap: 8px;
+    }
+    
+    .how-heard-options button {
+        padding: 6px 12px;
+        font-size: 0.8em;
     }
 }

@@ -16,7 +16,7 @@ const Contact = () => {
   });
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // null, 'success', 'error'
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const frontendEmail = 'lramkumar3134@gmail.com';
 
@@ -30,7 +30,6 @@ const Contact = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     
-    // Clear status when user starts editing after submission
     if (submitStatus) {
       setSubmitStatus(null);
     }
@@ -38,20 +37,16 @@ const Contact = () => {
 
   const handleHowHeardClick = (option) => {
     setFormData((prevData) => {
-      if (prevData.howHeard.includes(option)) {
-        return {
-          ...prevData,
-          howHeard: prevData.howHeard.filter((item) => item !== option),
-        };
-      } else {
-        return {
-          ...prevData,
-          howHeard: [...prevData.howHeard, option],
-        };
-      }
+      const updatedHowHeard = prevData.howHeard.includes(option)
+        ? prevData.howHeard.filter((item) => item !== option)
+        : [...prevData.howHeard, option];
+      
+      return {
+        ...prevData,
+        howHeard: updatedHowHeard,
+      };
     });
     
-    // Clear status when user starts editing after submission
     if (submitStatus) {
       setSubmitStatus(null);
     }
@@ -59,31 +54,66 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Frontend validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.brief.trim()) {
+      setSubmitStatus('error');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus(null);
     
     try {
-      const res = await createContact(formData);
-      setSubmitStatus('success');
-      // Optional: Reset form after successful submission
-      // setFormData({...initial form state});
-      console.log("Backend response:", res);
+      // Clean the data before sending
+      const cleanedData = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        brief: formData.brief.trim(),
+        websiteUrl: formData.websiteUrl.trim() || undefined,
+        companyStage: formData.companyStage || undefined,
+        deadline: formData.deadline || undefined,
+        budget: formData.budget || undefined,
+        howHeard: formData.howHeard.length > 0 ? formData.howHeard : undefined,
+      };
+
+      console.log("Sending data to backend:", cleanedData);
+      
+      const response = await createContact(cleanedData);
+      
+      if (response.success) {
+        setSubmitStatus('success');
+        // Reset form after successful submission
+        setFormData({
+          name: '',
+          email: '',
+          brief: '',
+          websiteUrl: '',
+          companyStage: '',
+          deadline: '',
+          budget: '',
+          howHeard: [],
+        });
+      } else {
+        setSubmitStatus('error');
+      }
+      
     } catch (err) {
-      setSubmitStatus('error');
       console.error("Submission error:", err);
+      setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const howHeardOptions = [
-    'Webflow partners',
-    'Awwwards',
+    'Wedding partners',
+    'Awareness',
     'Search engine',
     'Social media',
     'Word of mouth',
     'News article or blog',
-    'Other',
+    'Other'
   ];
 
   return (
@@ -142,7 +172,11 @@ const Contact = () => {
               <a href={`mailto:${frontendEmail}`} className="email-link">
                 {frontendEmail}
               </a>
-              <button onClick={handleCopyEmail} className="copy-button">
+              <button 
+                type="button"
+                onClick={handleCopyEmail} 
+                className="copy-button"
+              >
                 {copied ? 'Copied!' : 'Copy'}
               </button>
             </div>
@@ -176,8 +210,9 @@ const Contact = () => {
         <form className="contact-form-column" onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-field">
-              <label>WHAT'S YOUR NAME?</label>
+              <label htmlFor="name">WHAT'S YOUR NAME?</label>
               <input
+                id="name"
                 type="text"
                 name="name"
                 placeholder="Full Name"
@@ -188,8 +223,9 @@ const Contact = () => {
               />
             </div>
             <div className="form-field">
-              <label>WHAT'S YOUR EMAIL?</label>
+              <label htmlFor="email">WHAT'S YOUR EMAIL?</label>
               <input
+                id="email"
                 type="email"
                 name="email"
                 placeholder="name@company.com"
@@ -202,8 +238,9 @@ const Contact = () => {
           </div>
 
           <div className="form-field">
-            <label>WHAT'S YOUR BRIEF?</label>
+            <label htmlFor="brief">WHAT'S YOUR BRIEF?</label>
             <textarea
+              id="brief"
               name="brief"
               placeholder="Write your brief here: I need ___ with this scope, pages, specific needs"
               rows="5"
@@ -216,8 +253,9 @@ const Contact = () => {
 
           <div className="form-row">
             <div className="form-field">
-              <label>CURRENT WEBSITE URL</label>
+              <label htmlFor="websiteUrl">CURRENT WEBSITE URL</label>
               <input
+                id="websiteUrl"
                 type="url"
                 name="websiteUrl"
                 placeholder="www.example.com"
@@ -227,8 +265,9 @@ const Contact = () => {
               />
             </div>
             <div className="form-field">
-              <label>COMPANY STAGE</label>
+              <label htmlFor="companyStage">COMPANY STAGE</label>
               <select 
+                id="companyStage"
                 name="companyStage" 
                 onChange={handleInputChange}
                 value={formData.companyStage}
@@ -244,8 +283,9 @@ const Contact = () => {
 
           <div className="form-row">
             <div className="form-field">
-              <label>DO YOU HAVE A DEADLINE?</label>
+              <label htmlFor="deadline">DO YOU HAVE A DEADLINE?</label>
               <select 
+                id="deadline"
                 name="deadline" 
                 onChange={handleInputChange}
                 value={formData.deadline}
@@ -258,8 +298,9 @@ const Contact = () => {
               </select>
             </div>
             <div className="form-field">
-              <label>WHAT IS YOUR ESTIMATED BUDGET?</label>
+              <label htmlFor="budget">WHAT IS YOUR ESTIMATED BUDGET?</label>
               <select 
+                id="budget"
                 name="budget" 
                 onChange={handleInputChange}
                 value={formData.budget}
@@ -294,7 +335,7 @@ const Contact = () => {
           <button 
             type="submit" 
             className="submit-button"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !formData.name || !formData.email || !formData.brief}
           >
             {isSubmitting ? (
               <>
